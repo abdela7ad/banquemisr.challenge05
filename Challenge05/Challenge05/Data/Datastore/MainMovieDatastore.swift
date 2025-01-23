@@ -15,16 +15,16 @@ final class MainMovieDatastore: MovieDataStore {
         self.dataStore = dataStore
     }
     
-    func cachedMovies(page: Int) -> MovieResult? {
-        dataStore.get(key: "\(Constants.CachedMoviesKey) - \(page)")
+    func cachedMovies(suffixKey: String) -> MovieResult? {
+        dataStore.get(key: "\(Constants.CachedMoviesKey) - \(suffixKey)")
     }
     
     func movieDetail(movieId: Int) -> MovieDetail? {
         dataStore.get(key: "\(movieId)")
     }
     
-    func saveFetchedMovies(_ result: MovieResult, page: Int) {
-        dataStore.save(key: "\(Constants.CachedMoviesKey) - \(page)", value: result)
+    func saveFetchedMovies(_ result: MovieResult, suffixKey: String) {
+        dataStore.save(key: "\(Constants.CachedMoviesKey) - \(suffixKey)", value: result)
     }
     
     func saveMovieDetail(_ detail: MovieDetail, for movieId: Int) {

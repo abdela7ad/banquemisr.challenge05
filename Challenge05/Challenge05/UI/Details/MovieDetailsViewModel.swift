@@ -16,6 +16,8 @@ final class MovieDetailsViewModel: ObservableObject {
     @Published var revenu: Int = 0
     @Published var posterPath: URL?
     @Published var genres: [Genre] = []
+    @Published var errorMessage: String?
+    @Published var loading: Bool = false
 
     private let movie: Movie
     private let movieRepository: MovieRepository
@@ -28,17 +30,21 @@ final class MovieDetailsViewModel: ObservableObject {
     
     @MainActor
     func loadMovieDetail() async {
+        errorMessage = nil
+        loading = true
         do {
             let details = try await movieRepository.movieDetail(movieId: movie.id)
+            loading = false
             self.title = details.originalTitle
             self.overview = details.overview
             self.tagline = details.tagline
             self.genres = details.genres
             self.revenu = details.revenue
             self.runtime = details.runtime * 60 /// convert to Sec
-            self.posterPath = URL(string: "https://image.tmdb.org/t/p/original/\(details.backdropPath)")
+            self.posterPath = details.backdropPathUrl
         } catch  {
-            
+            loading = false
+            errorMessage = (error as? NetworkError)?.readableMessage ?? "unexpected error. please contact the help center with code \(9001)"
         }
     }
 }

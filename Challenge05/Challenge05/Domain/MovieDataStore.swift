@@ -9,9 +9,9 @@ import Foundation
 
 protocol MovieDataStore {
     
-    func saveFetchedMovies(_ result: MovieResult, page: Int)
+    func saveFetchedMovies(_ result: MovieResult, suffixKey: String)
 
-    func cachedMovies(page: Int) -> MovieResult?
+    func cachedMovies(suffixKey: String) -> MovieResult?
     
     func movieDetail(movieId: Int) ->  MovieDetail?
     

@@ -6,6 +6,7 @@
 //
 
 protocol MovieService {
-    func movies(path: String, page: Int) async throws -> MovieResult 
+    func movies(path: String, page: Int) async throws -> MovieResult
+    
     func movieDetail(movieId: Int) async throws -> MovieDetail
 }

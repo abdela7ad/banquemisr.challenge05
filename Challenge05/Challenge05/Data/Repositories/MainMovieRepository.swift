@@ -20,13 +20,13 @@ final class MainMovieRepository: MovieRepository {
     func movies(path: String, page: Int) async throws -> MovieResult {
         do {
             let freshResults = try await service.movies(path: path, page: page)
-            datastore.saveFetchedMovies(freshResults, page: page)
+            datastore.saveFetchedMovies(freshResults, suffixKey: "\(path).\(page)")
             if page == 1 {
                 datastore.saveLatestCachedDate(.now)
             }
             return freshResults
         } catch  {
-            if let storedResults = datastore.cachedMovies(page: page) {
+            if let storedResults = datastore.cachedMovies(suffixKey: "\(path).\(page)") {
                 return storedResults
             } else {
                 throw error

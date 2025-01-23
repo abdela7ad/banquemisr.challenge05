@@ -12,7 +12,7 @@ final class MovieDependacyContainer {
     init(hostProvider: HostProvider,
          networkProvider: NetworkProvider) {
         self.movieService = MainMovieService(hostProvider: hostProvider, networkProvider: networkProvider)
-        self.movieDataStore = MainMovieDatastore(dataStore: MemoryDatastore())
+        self.movieDataStore = MainMovieDatastore(dataStore: FileDatastore(purpose: "Caching-Movie"))
     }
     
     func makeMovieReposity() -> MovieRepository {
